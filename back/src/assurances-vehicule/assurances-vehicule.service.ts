@@ -1,76 +1,76 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateAbonnementDTO } from './dto/create-abonnement.dto';
-import { UpdateAbonnementDTO } from './dto/update-abonnement.dto';
+import { CreateAssuranceVehiculeDTO } from './dto/create-assurance-vehicule.dto';
+import { UpdateAssuranceVehiculeDTO } from './dto/update-assurance-vehicule.dto';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/common/auth/auth.service';
-import { DeepPartial, Repository } from 'typeorm';
-import { Abonnement } from './entities/abonnement.entity';
+import { Repository } from 'typeorm';
+import { AssuranceVehicule } from './entities/assurance-vehicule.entity';
 
 @Injectable()
-export class AbonnementsService {
+export class AssurancesVehiculeService {
   constructor(
-    @InjectRepository(Abonnement)
-    private abonnementsRepository: Repository<Abonnement>,
+    @InjectRepository(AssuranceVehicule)
+    private assurancesVehiculeRepository: Repository<AssuranceVehicule>,
     private authService: AuthService,
     private jwtService: JwtService,
   ) { }
 
-  async create(createAbonnementDTO: CreateAbonnementDTO, token: string) {
+  async create(createAssuranceVehiculeDTO: CreateAssuranceVehiculeDTO, token: string) {
     // Décoder le jeton pour récupérer l'ID de l'utilisateur
     const decodedToken = this.jwtService.decode(token);
     // Enregistrer les données présentes dans la charge utile du jeton
     const authUserId: string = decodedToken.sub;
     // Créer un nouvel objet abonnement en combinant les données reçues et l'ID de l'utilisateur
-    const newSubscription = { ...createAbonnementDTO, userId: authUserId }
+    const newAssurance = { ...createAssuranceVehiculeDTO, userId: authUserId }
     // Enregistrer le nouvel abonnement dans la base de données
-    await this.abonnementsRepository.save(newSubscription);
-    return { message: 'Abonnement créé avec succès', data: newSubscription };
+    await this.assurancesVehiculeRepository.save(newAssurance);
+    return { message: 'Assurance véhicule créé avec succès', data: newAssurance };
   }
 
   async findAll(token: string) {
     // Récupérer l'ID de l'utilisateur authentifié et le rôle de l'utilisateur authentifié
     const { authenticatedUserID, authenticatedUserRole } = await this.authService.decodedToken(token)
-    let subscriptions = []
-    // Vérifier si l'utilisateur authentifié est un administrateur pour renvoyer tous les abonnements
+    let assurancesVehicule = []
+    // Vérifier si l'utilisateur authentifié est un administrateur pour renvoyer tous les assurances
     if (authenticatedUserRole === 'Admin') {
-      subscriptions = await this.abonnementsRepository.find();
-      // Sinon, renvoyer uniquement les abonnements de l'utilisateur authentifié
+      assurancesVehicule = await this.assurancesVehiculeRepository.find();
+      // Sinon, renvoyer uniquement les assurances de l'utilisateur authentifié
     } else {
-      subscriptions = await this.abonnementsRepository.find({ where: { userId: authenticatedUserID } });
+      assurancesVehicule = await this.assurancesVehiculeRepository.find({ where: { userId: authenticatedUserID } });
     }
-    return subscriptions;
+    return assurancesVehicule;
   }
 
   async findOne(id: string, token: string) {
     // Récupérer et vérifier si un abonnement existe avec l'ID fourni
-    const subscription = await this.abonnementsRepository.findOne({ where: { id: id } });
-    if (!subscription) {
+    const assuranceVehicule = await this.assurancesVehiculeRepository.findOne({ where: { id: id } });
+    if (!assuranceVehicule) {
       throw new NotFoundException(
         `Aucun abonnement trouvé avec l'ID fourni : ${id}`,
       );
     }
     // Obtenir l'ID de l'utilisateur pour le comparer à l'ID de l'utilisateur authentifié
-    const userId: string = subscription.userId;
+    const userId: string = assuranceVehicule.userId;
     // Vérifier si l'utilisateur authentifié a les autorisations nécessaires
     await this.authService.checkPermissions(token, userId)
     // Renvoyer les données si l'utilisateur authentifié a les autorisations nécessaires
-    return subscription;
+    return assuranceVehicule;
   }
 
-  async update(id: string, updateAbonnementDTO: UpdateAbonnementDTO, token: string) {
+  async update(id: string, updateAssuranceVehiculeDTO: UpdateAssuranceVehiculeDTO, token: string) {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
     await this.findOne(id, token);
     // Procéder à la mise à jour si l'utilisateur est autorisé
-    await this.abonnementsRepository.update(id, updateAbonnementDTO);
-    return { message: 'Abonnement mis à jour avec succès', data: { id, ...updateAbonnementDTO } };
+    //! await this.assurancesVehiculeRepository.update(id, updateAssuranceVehiculeDTO);
+    return { message: 'Assurance véhicule mis à jour avec succès', data: { id, ...updateAssuranceVehiculeDTO } };
   }
 
   async remove(id: string, token: string) {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
-    const subscription = await this.findOne(id, token);
+    const assuranceVehicule = await this.findOne(id, token);
     // Procéder à la suppression si l'utilisateur est autorisé
-    await this.abonnementsRepository.delete(id);
-    return { message: 'Abonnement supprimé avec succès', data: subscription };
+    await this.assurancesVehiculeRepository.delete(id);
+    return { message: 'Assurance véhicule supprimé avec succès', data: assuranceVehicule };
   }
 }

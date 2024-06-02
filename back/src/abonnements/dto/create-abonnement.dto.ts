@@ -1,7 +1,6 @@
-import { IsIn, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
-import { ChoixPaiementEnum } from '../enums/choix_paiement.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { TypeContratEnum } from 'src/types-contrat/enums/types-contrat.enum';
+import { IsIn, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
+import { ChoixPaiementEnum, TypeContratEnum } from '../enums';
 
 export class CreateAbonnementDTO {
     @ApiProperty({ example: '30/05/2024' })
@@ -23,12 +22,12 @@ export class CreateAbonnementDTO {
     @IsString()
     duree: string;
 
-    @ApiProperty({ example: 'EDF' })
+    @ApiProperty({ example: 'Direct-Assurance' })
     @IsNotEmpty()
     @IsString()
     entreprise: string;
 
-    @ApiProperty({ example: '548' })
+    @ApiProperty({ example: '796' })
     @IsNotEmpty()
     @IsNumberString()
     montant: string;
@@ -40,7 +39,7 @@ export class CreateAbonnementDTO {
     choix_paiement: ChoixPaiementEnum;
 
     @ValidateIf((o) => o.type === ChoixPaiementEnum.MENSUEL)
-    @ApiProperty({ example: '55' })
+    @ApiProperty({ example: '66.33' })
     @IsNotEmpty()
     @IsString()
     mensualites?: string;
@@ -51,7 +50,7 @@ export class CreateAbonnementDTO {
     @IsIn(Object.values(TypeContratEnum))
     type: TypeContratEnum;
 
-    @ApiProperty({ example: '@Azerty123!' })
+    @ApiProperty({ example: 'abc-123-def-456-ghi-789' })
     @IsNotEmpty()
     @IsString()
     reference_contrat: string;

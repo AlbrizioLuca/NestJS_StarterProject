@@ -1,5 +1,5 @@
 
-export interface InformationsAssuranceHabitation {
+export interface InfosAssuranceHabitation {
     "type_logement": string,
     "etage_appartement": number,
     "date_enmenagement": string,

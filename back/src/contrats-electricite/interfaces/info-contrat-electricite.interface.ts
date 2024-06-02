@@ -1,5 +1,5 @@
 
-export interface InformationsElectricite {
+export interface InfosContratElectricite {
     "conso_annuelle": boolean,
     "type_logement": string
     "surface_logement": number,

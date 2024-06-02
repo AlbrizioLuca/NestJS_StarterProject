@@ -1,5 +1,5 @@
 
-export interface InformationsAssuranceVehicule {
+export interface InfosAssuranceVehicule {
     "type_vehicule": string,
     "marque": string,
     "modele": string,
@@ -17,7 +17,7 @@ export interface InformationsAssuranceVehicule {
     "conducteur_principal": {},
     "conducteurs_secondaires": [],
     "bonus_malus": number,
-    "suspension_5_derrieres_annees": boolean,
+    "suspension_5_dernieres_annees": boolean,
     "annulation_5_dernieres_annees": boolean,
     "nombre_sinistres_24_derniers_mois": number,
     "date_derniers_sinistres": string,

@@ -1,7 +1,6 @@
 import {
     User
 } from "../../users/entities/user.entity";
-import { TypesContrat } from "../../types-contrat/entities/types-contrat.entity";
 
 import {
     Column,
@@ -10,8 +9,11 @@ import {
     OneToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { InfosContratRequises } from "src/interfaces";
-import { TypeContratEnum } from "src/types-contrat/enums/types-contrat.enum";
+import { TypeContratEnum } from "../enums/types-contrat.enum";
+import { AssuranceVehicule } from "src/assurances-vehicule/entities/assurance-vehicule.entity";
+import { AssuranceHabitation } from "src/assurances-habitation/entities/assurances-habitation.entity";
+import { ContratElectricite } from "src/contrats-electricite/entities/contrats-electricite.entity";
+import { ContratMutuelle } from "src/contrats-mutuelle/entities/contrats-mutuelle.entity";
 
 @Entity('abonnement')
 export class Abonnement {
@@ -48,12 +50,6 @@ export class Abonnement {
     })
     type: TypeContratEnum;
 
-    @OneToOne(() => TypesContrat)
-    @JoinColumn({ name: "informations_contrat" })
-    typesContrat: TypesContrat;
-    @Column({ type: 'json' })
-    informations_contrat: InfosContratRequises;
-
     @OneToOne(() => User)
     @JoinColumn({ name: "userId" })
     user: User;
@@ -63,4 +59,44 @@ export class Abonnement {
         nullable: true
     })
     userId: string;
+
+    @OneToOne(() => AssuranceVehicule)
+    @JoinColumn({ name: "assuranceVehiculeId" })
+    assuranceVehicule: AssuranceVehicule;
+    @Column({
+        type: 'uuid',
+        length: 36,
+        nullable: true
+    })
+    assuranceVehiculeId: string;
+
+    @OneToOne(() => AssuranceHabitation)
+    @JoinColumn({ name: "assuranceHabitationId" })
+    assuranceHabitation: AssuranceHabitation;
+    @Column({
+        type: 'uuid',
+        length: 36,
+        nullable: true
+    })
+    assuranceHabitationId: string;
+
+    @OneToOne(() => ContratElectricite)
+    @JoinColumn({ name: "contratElectriciteId" })
+    contratElectricite: ContratElectricite;
+    @Column({
+        type: 'uuid',
+        length: 36,
+        nullable: true
+    })
+    contratElectriciteId: string;
+
+    @OneToOne(() => ContratMutuelle)
+    @JoinColumn({ name: "contratMutuelleId" })
+    contratMutuelle: ContratMutuelle;
+    @Column({
+        type: 'uuid',
+        length: 36,
+        nullable: true
+    })
+    contratMutuelleId: string;
 }

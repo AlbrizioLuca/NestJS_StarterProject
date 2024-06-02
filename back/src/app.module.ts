@@ -7,7 +7,10 @@ import { UsersModule } from './users/users.module';
 import { IsUniqueConstraint } from './common/validators/is-unique-constraint';
 import { ProfilsModule } from './profils/profils.module';
 import { AbonnementsModule } from './abonnements/abonnements.module';
-import { TypesContratModule } from './types-contrat/types-contrat.module';
+import { AssurancesVehiculeModule } from './assurances-vehicule/assurances-vehicule.module';
+import { AssurancesHabitationModule } from './assurances-habitation/assurances-habitation.module';
+import { ContratsMutuelleModule } from './contrats-mutuelle/contrats-mutuelle.module';
+import { ContratsElectriciteModule } from './contrats-electricite/contrats-electricite.module';
 
 @Module({
   imports: [
@@ -33,7 +36,10 @@ import { TypesContratModule } from './types-contrat/types-contrat.module';
     UsersModule,
     ProfilsModule,
     AbonnementsModule,
-    TypesContratModule,
+    AssurancesVehiculeModule,
+    AssurancesHabitationModule,
+    ContratsMutuelleModule,
+    ContratsElectriciteModule,
   ],
   providers: [IsUniqueConstraint]
 })

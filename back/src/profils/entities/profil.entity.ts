@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { GenreEnum } from "../enums";
-import { Adresses } from "../../interfaces/addresses.interface";
+import { Adresses } from "../interfaces/addresses.interface";
 
 @Entity('profil')
 export class Profil {

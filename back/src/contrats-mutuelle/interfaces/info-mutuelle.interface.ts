@@ -1,5 +1,5 @@
 
-export interface InformationsMutuelle {
+export interface InfosContratMutuelle {
     "nombre_personnes": number,
     "conjoint": ConjointInterface,
     "enfants": EnfantsInterface,

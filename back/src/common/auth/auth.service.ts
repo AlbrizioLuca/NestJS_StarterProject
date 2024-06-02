@@ -37,10 +37,8 @@ export class AuthService {
     // Private function to check permissions
     async checkPermissions(token: string, userId?: string) {
         const { authenticatedUserID, authenticatedUserRole } = await this.decodedToken(token)
-
         // Throw a forbidden Exception if the user is not Admin and he try to make CRUD requests to other data than himself
         if (userId !== authenticatedUserID && authenticatedUserRole !== 'Admin') {
-
             throw new ForbiddenException('You can only read, modify, or delete data concerning your own account.');
         }
     }
@@ -48,16 +46,12 @@ export class AuthService {
     async decodedToken(token: string) {
         // Decode the token to recover userID and userRole
         const decodedToken = this.jwtService.decode(token);
-
         // Save data present in the token payload
         const authenticatedUserID = decodedToken.sub;
-
         const authenticatedUserRole = decodedToken.role;
-
         //! Debugging don't forget to remove ! 
         console.log("authenticatedUserID: ", authenticatedUserID);
         console.log("authenticatedUserRole: ", authenticatedUserRole);
-
         return { authenticatedUserID, authenticatedUserRole };
     }
 }
