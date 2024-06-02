@@ -6,6 +6,7 @@ import {
     Column,
     Entity,
     JoinColumn,
+    ManyToOne,
     OneToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
@@ -14,6 +15,7 @@ import { AssuranceVehicule } from "src/assurances-vehicule/entities/assurance-ve
 import { AssuranceHabitation } from "src/assurances-habitation/entities/assurances-habitation.entity";
 import { ContratElectricite } from "src/contrats-electricite/entities/contrats-electricite.entity";
 import { ContratMutuelle } from "src/contrats-mutuelle/entities/contrats-mutuelle.entity";
+import { ChoixPaiementEnum } from "../enums";
 
 @Entity('abonnement')
 export class Abonnement {
@@ -35,8 +37,8 @@ export class Abonnement {
     @Column()
     montant: string;
 
-    @Column()
-    choix_paiement: string;
+    @Column({ type: 'enum', enum: ChoixPaiementEnum })
+    choix_paiement: ChoixPaiementEnum;
 
     @Column()
     mensualites: string;
@@ -44,23 +46,17 @@ export class Abonnement {
     @Column()
     reference_contrat: string;
 
-    @Column({
-        type: 'enum',
-        enum: TypeContratEnum
-    })
+    @Column({ type: 'enum', enum: TypeContratEnum })
     type: TypeContratEnum;
 
-    @OneToOne(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: "userId" })
     user: User;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
+    @Column({ type: 'uuid', length: 36, nullable: true })
     userId: string;
 
-    @OneToOne(() => AssuranceVehicule, assuranceVehicule => assuranceVehicule.informations_contrat)
+    @OneToOne(
+        () => AssuranceVehicule, assuranceVehicule => assuranceVehicule.informations_contrat)
     assuranceVehicule: AssuranceVehicule;
 
     @OneToOne(() => AssuranceHabitation, assuranceHabitation => assuranceHabitation.informations_contrat)
