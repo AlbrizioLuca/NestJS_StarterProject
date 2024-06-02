@@ -2,7 +2,8 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    OneToOne
+    OneToOne,
+    JoinColumn
 } from "typeorm";
 import { Abonnement } from "src/abonnements/entities/abonnement.entity";
 import { InfosAssuranceHabitation } from "../interfaces/info-assurance-habitation.interface";
@@ -22,6 +23,13 @@ export class AssuranceHabitation {
     })
     userId: string;
 
-    @OneToOne(() => Abonnement, abonnement => abonnement.assuranceHabitation)
+    @OneToOne(() => Abonnement)
+    @JoinColumn({ name: "abonnementId" })
     abonnement: Abonnement;
+    @Column({
+        type: 'uuid',
+        length: 36,
+        nullable: true
+    })
+    abonnementId: string;
 }

@@ -63,7 +63,8 @@ Ajouter dans l'IDE de votre choix et lancer le script.
 ```
   - la création d'un compte user permettant de réaliser ensuite des requêtes basiques CRUD sur les différentes entités
   - l'implémentation d'un profil associé à ce même user, dans lequel seront enregistrées ses adresses postales sous format JSON
-  - une liste d'abonnements, définis par les objets JSON définies par un admin sur la table types_contrat
+  - une liste d'abonnements avec des champs génériques
+  - des tables correspoondant à différents type d'abonnement et reliées vers la table ABONNEMENT.
 ```
 
 > [!TIP]

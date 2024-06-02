@@ -60,43 +60,15 @@ export class Abonnement {
     })
     userId: string;
 
-    @OneToOne(() => AssuranceVehicule)
-    @JoinColumn({ name: "assuranceVehiculeId" })
+    @OneToOne(() => AssuranceVehicule, assuranceVehicule => assuranceVehicule.informations_contrat)
     assuranceVehicule: AssuranceVehicule;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
-    assuranceVehiculeId: string;
 
-    @OneToOne(() => AssuranceHabitation)
-    @JoinColumn({ name: "assuranceHabitationId" })
+    @OneToOne(() => AssuranceHabitation, assuranceHabitation => assuranceHabitation.informations_contrat)
     assuranceHabitation: AssuranceHabitation;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
-    assuranceHabitationId: string;
 
-    @OneToOne(() => ContratElectricite)
-    @JoinColumn({ name: "contratElectriciteId" })
+    @OneToOne(() => ContratElectricite, contratElectricite => contratElectricite.informations_contrat)
     contratElectricite: ContratElectricite;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
-    contratElectriciteId: string;
 
-    @OneToOne(() => ContratMutuelle)
-    @JoinColumn({ name: "contratMutuelleId" })
+    @OneToOne(() => ContratMutuelle, contratMutuelle => contratMutuelle.informations_contrat)
     contratMutuelle: ContratMutuelle;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
-    contratMutuelleId: string;
 }
