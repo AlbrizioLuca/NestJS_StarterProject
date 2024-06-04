@@ -62,7 +62,7 @@ export class ContratsElectriciteService {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
     await this.findOne(id, token);
     // Procéder à la mise à jour si l'utilisateur est autorisé
-    //! await this.contratsElectriciteRepository.update(id, updateContratElectriciteDTO);
+    await this.contratsElectriciteRepository.update(id, { informations_contrat: updateContratElectriciteDTO });
     return { message: 'Contrat électrique mis à jour avec succès', data: { id, ...updateContratElectriciteDTO } };
   }
 

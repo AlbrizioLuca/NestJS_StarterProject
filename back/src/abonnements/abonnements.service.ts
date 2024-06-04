@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Query } from '@nestjs/common';
 import { CreateAbonnementDTO } from './dto/create-abonnement.dto';
 import { UpdateAbonnementDTO } from './dto/update-abonnement.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -35,21 +35,21 @@ export class AbonnementsService {
     private jwtService: JwtService,
   ) { }
 
-  async create(createAbonnementDTO: CreateAbonnementDTO, token: string) {
+  async create(createAbonnementDTO: CreateAbonnementDTO, type: TypeContratEnum, token: string) {
     // Décoder le jeton pour récupérer l'ID de l'utilisateur
     const decodedToken = this.jwtService.decode(token);
     // Enregistrer les données présentes dans la charge utile du jeton
     const authUserId: string = decodedToken.sub;
     // Créer un nouvel objet abonnement en combinant les données reçues et l'ID de l'utilisateur
-    const abonnement = { ...createAbonnementDTO, userId: authUserId }
+    const abonnement = { ...createAbonnementDTO, userId: authUserId, type: type };
     // Enregistrer le nouvel abonnement dans la base de données
     const nouvelAbonnement = await this.abonnementsRepository.save(abonnement);
 
-    switch (createAbonnementDTO.type) {
+    switch (abonnement.type) {
       case TypeContratEnum.ASSURANCE_VEHICULE:
         const assuranceVehicule = new AssuranceVehicule()
         assuranceVehicule.abonnementId = nouvelAbonnement.id;
-        assuranceVehicule.userId = nouvelAbonnement.id;
+        assuranceVehicule.userId = nouvelAbonnement.userId;
 
         await this.assuranceVehiculeRepository.save(assuranceVehicule);
         break;
@@ -57,7 +57,7 @@ export class AbonnementsService {
       case TypeContratEnum.ASSURANCE_HABITATION:
         const assuranceHabitation = new AssuranceHabitation()
         assuranceHabitation.abonnementId = nouvelAbonnement.id;
-        assuranceHabitation.userId = nouvelAbonnement.id;
+        assuranceHabitation.userId = nouvelAbonnement.userId;
 
         await this.assuranceHabitationRepository.save(assuranceHabitation);
         break;
@@ -65,7 +65,7 @@ export class AbonnementsService {
       case TypeContratEnum.FOURNISSEUR_ELECTRICITE:
         const contratElectricite = new ContratElectricite()
         contratElectricite.abonnementId = nouvelAbonnement.id;
-        contratElectricite.userId = nouvelAbonnement.id;
+        contratElectricite.userId = nouvelAbonnement.userId;
 
         await this.contratElectriciteRepository.save(contratElectricite);
         break;
@@ -73,7 +73,7 @@ export class AbonnementsService {
       case TypeContratEnum.MUTUELLE:
         const contratMutuelle = new ContratMutuelle()
         contratMutuelle.abonnementId = nouvelAbonnement.id;
-        contratMutuelle.userId = nouvelAbonnement.id;
+        contratMutuelle.userId = nouvelAbonnement.userId;
 
         await this.contratMutuelleRepository.save(contratMutuelle);
         break;

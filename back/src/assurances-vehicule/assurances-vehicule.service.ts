@@ -62,7 +62,7 @@ export class AssurancesVehiculeService {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
     await this.findOne(id, token);
     // Procéder à la mise à jour si l'utilisateur est autorisé
-    //! await this.assurancesVehiculeRepository.update(id, updateAssuranceVehiculeDTO);
+    //! await this.assurancesVehiculeRepository.update(id, { informations_contrat: updateAssuranceVehiculeDTO });
     return { message: 'Assurance véhicule mis à jour avec succès', data: { id, ...updateAssuranceVehiculeDTO } };
   }
 
@@ -74,3 +74,5 @@ export class AssurancesVehiculeService {
     return { message: 'Assurance véhicule supprimé avec succès', data: assuranceVehicule };
   }
 }
+
+

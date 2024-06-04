@@ -1,39 +1,41 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, IsBoolean, IsDate, IsPositive, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsPositive, IsNotEmpty, IsIn, IsInt, IsArray, ValidateIf, Matches } from 'class-validator';
+import { TypeLogementEnum, EtageAppartementEnum, StatutOccupantEnum, EquipementsLogementEnum, EquipementsProtectionEnum, TypeChauffageEnum, TypeResidenceEnum } from '../enums';
 
-class InfoAssuranceHabitation {
-    @ApiProperty({ example: 'Appartement' })
+export class CreateAssuranceHabitationDTO {
+
+    @ApiProperty({ example: TypeLogementEnum.APPARTEMENT })
+    @IsNotEmpty()
+    @IsIn(Object.values(TypeLogementEnum))
     @IsString()
-    type_logement: string;
+    type_logement: TypeLogementEnum;
 
-    @ApiProperty({ example: 1 })
-    @IsNumber()
-    @IsPositive()
-    etage_appartement: number;
+    @ApiProperty({ example: EtageAppartementEnum.DEUXIEME })
+    @ValidateIf((o) => o.type_logement === TypeLogementEnum.APPARTEMENT)
+    @IsIn(Object.values(EtageAppartementEnum))
+    @IsString()
+    etage_appartement: EtageAppartementEnum;
 
-    @ApiProperty({ example: '2022-01-01' })
-    @IsDate()
+    @ApiProperty({ example: '01-01-2022' })
+    @IsString()
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
     date_enmenagement: string;
 
-    @ApiProperty({ example: true })
-    @IsBoolean()
-    proprietaire: boolean;
-
-    @ApiProperty({ example: false })
-    @IsBoolean()
-    locataire: boolean;
-
-    @ApiProperty({ example: true })
-    @IsBoolean()
-    residence_principale: boolean;
-
-    @ApiProperty({ example: false })
-    @IsBoolean()
-    residence_secondaire: boolean;
-
-    @ApiProperty({ example: '12 mois' })
+    @ApiProperty({ example: StatutOccupantEnum.PROPRIETAIRE })
+    @IsIn(Object.values(StatutOccupantEnum))
     @IsString()
-    periode_inhabitation: string;
+    statut_occupant: StatutOccupantEnum;
+
+    @ApiProperty({ example: TypeResidenceEnum.PRINCIPALE })
+    @IsIn(Object.values(TypeResidenceEnum))
+    @IsString()
+    type_residence: TypeResidenceEnum;
+
+    @ApiProperty()
+    @ValidateIf((o) => o.type_residence === TypeResidenceEnum.SECONDAIRE)
+    @IsString()
+    periode_inhabitation?: string;
 
     @ApiProperty({ example: 150000 })
     @IsNumber()
@@ -45,26 +47,22 @@ class InfoAssuranceHabitation {
     resiliation_3_dernieres_annees: boolean;
 
     @ApiProperty({ example: 2 })
-    @IsNumber()
+    @IsInt()
     @IsPositive()
-    nombre_sinistres_3_dernieres_annees: number;
-
-    @ApiProperty({ example: false })
-    @IsBoolean()
-    logement_professionnel: boolean;
+    nombre_sinistres_3_dernieres_annees?: number;
 
     @ApiProperty({ example: 3 })
-    @IsNumber()
+    @IsInt()
     @IsPositive()
     personnes_foyer: number;
 
     @ApiProperty({ example: 1 })
-    @IsNumber()
+    @IsInt()
     @IsPositive()
-    enfants_foyer: number;
+    enfants_foyer?: number;
 
     @ApiProperty({ example: 5 })
-    @IsNumber()
+    @IsInt()
     @IsPositive()
     anciennete_logement: number;
 
@@ -74,30 +72,25 @@ class InfoAssuranceHabitation {
     surface_habitable: number;
 
     @ApiProperty({ example: 3 })
-    @IsNumber()
+    @IsInt()
     @IsPositive()
     nombre_pieces: number;
 
-    @ApiProperty({ example: 'Chauffage central' })
+    @ApiProperty({ example: TypeChauffageEnum.ELECTRIQUE })
+    @IsIn(Object.values(TypeChauffageEnum))
     @IsString()
-    type_chauffage: string;
+    type_chauffage: TypeChauffageEnum;
 
-    @ApiProperty({ example: 'Alarme, Caméras de surveillance' })
-    @IsString()
-    equipement_protection: string;
+    @ApiProperty({ example: true })
+    @IsBoolean()
+    chauffage_collectif: boolean;
 
-    @ApiProperty({ example: 'Cuisine équipée, Meubles intégrés' })
-    @IsString()
-    equipement_logement: string;
+    @ApiProperty({ example: [EquipementsProtectionEnum.ALARME, EquipementsProtectionEnum.CAMERA] })
+    @IsArray()
+    equipement_protection: EquipementsProtectionEnum[];
 
-}
-
-
-export class CreateAssuranceHabitationDTO {
-
-    @ApiProperty({ example: InfoAssuranceHabitation })
-    @IsNotEmpty()
-    informations_contrat: InfoAssuranceHabitation;
-
+    @ApiProperty({ example: [EquipementsLogementEnum.LAVE_VAISSELLE, EquipementsLogementEnum.LAVE_LINGE] })
+    @IsArray()
+    equipement_logement: EquipementsLogementEnum[];
 
 }

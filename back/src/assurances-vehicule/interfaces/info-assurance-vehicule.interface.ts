@@ -1,3 +1,4 @@
+import { AutresConducteurs, InfosConducteur } from "../dto/create-assurance-vehicule.dto";
 
 export interface InfosAssuranceVehicule {
     type_vehicule: string,
@@ -14,8 +15,8 @@ export interface InfosAssuranceVehicule {
     kilometrage_annuel: number,
     kilometrage_actuel: number,
     lieu_stationnement: string,
-    conducteur_principal: {},
-    conducteurs_secondaires: [],
+    conducteur_principal: InfosConducteur,
+    conducteurs_secondaires: AutresConducteurs,
     bonus_malus: number,
     suspension_5_dernieres_annees: boolean,
     annulation_5_dernieres_annees: boolean,

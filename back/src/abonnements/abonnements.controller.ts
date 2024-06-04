@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { AbonnementsService } from './abonnements.service';
 import { CreateAbonnementDTO } from './dto/create-abonnement.dto';
 import { UpdateAbonnementDTO } from './dto/update-abonnement.dto';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ExtractToken } from '../common/decorators/extract-token.decorator';
 import { AuthGuard } from '../common/auth/auth.guard';
+import { TypeContratEnum } from './enums';
 
 @ApiTags('Abonnements')
 @UseGuards(AuthGuard)
@@ -17,9 +18,14 @@ export class AbonnementsController {
   ) { }
 
   @ApiOperation({ summary: 'Enregistrer UN abonnement' })
+  @ApiQuery({
+    name: 'type',
+    enum: TypeContratEnum,
+    required: true,
+  })
   @Post()
-  create(@Body() createAbonnementDTO: CreateAbonnementDTO, @ExtractToken() token: string) {
-    return this.abonnementsService.create(createAbonnementDTO, token);
+  create(@Query('type') type: TypeContratEnum, @Body() createAbonnementDTO: CreateAbonnementDTO, @ExtractToken() token: string) {
+    return this.abonnementsService.create(createAbonnementDTO, type, token);
   }
 
   @ApiOperation({ summary: 'Récupérer TOUS les abonnements' })

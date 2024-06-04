@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsBoolean, IsDate, IsArray, ValidateNested, IsOptional, Matches, IsNotEmpty, IsIn, isString } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsArray, ValidateNested, IsOptional, Matches, IsNotEmpty, IsIn, ValidateIf } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { GenreEnum } from 'src/profils/enums';
 import { CategoriePermisEnum } from '../enums/categorie-permis.enum';
@@ -63,9 +63,12 @@ export class InfosConducteur {
     nombre_sinistres_24_derniers_mois: number;
 
     @ApiProperty({ example: '' })
-    @IsOptional()
-    @IsDate()
-    date_derniers_sinistres?: Date;
+    @ValidateIf((o) => o.nombre_sinistres_24_derniers_mois > 0)
+    @IsNotEmpty()
+    @IsArray()
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    date_derniers_sinistres?: string[];
 
     @ApiProperty({ example: 'Accident' })
     @IsString()
@@ -75,7 +78,7 @@ export class InfosConducteur {
 export class AutresConducteurs {
     @ApiProperty({ type: InfosConducteur })
     @ValidateNested()
-    infos_conducteur: InfosConducteur;
+    infos_conducteur: InfosConducteur[];
 }
 
 export class CreateAssuranceVehiculeDTO {

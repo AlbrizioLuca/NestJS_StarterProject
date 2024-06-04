@@ -63,7 +63,7 @@ export class ContratsMutuelleService {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
     await this.findOne(id, token);
     // Procéder à la mise à jour si l'utilisateur est autorisé
-    //! await this.contratsMutuelleContratMutuelleRepository.update(id, updateContratMutuelleDTO);
+    await this.contratsMutuelleContratMutuelleRepository.update(id, { informations_contrat: updateContratMutuelleDTO });
     return { message: 'Contrat mutuelle mis à jour avec succès', data: { id, ...updateContratMutuelleDTO } };
   }
 

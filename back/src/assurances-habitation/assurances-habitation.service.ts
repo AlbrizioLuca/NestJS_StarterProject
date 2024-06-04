@@ -25,7 +25,7 @@ export class AssurancesHabitationService {
     const newAssurance = { ...createAssuranceHabitationDTO, userId: authUserId }
     // Enregistrer le nouvel abonnement dans la base de données
     await this.assurancesHabitationRepository.save(newAssurance);
-    return { message: 'Assurance véhicule créé avec succès', data: newAssurance };
+    return { message: 'Assurance habitation créé avec succès', data: newAssurance };
   }
 
   async findAll(token: string) {
@@ -62,8 +62,8 @@ export class AssurancesHabitationService {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
     await this.findOne(id, token);
     // Procéder à la mise à jour si l'utilisateur est autorisé
-    await this.assurancesHabitationRepository.update(id, updateAssuranceHabitationDTO);
-    return { message: 'Assurance véhicule mis à jour avec succès', data: { id, ...updateAssuranceHabitationDTO } };
+    await this.assurancesHabitationRepository.update(id, { informations_contrat: updateAssuranceHabitationDTO });
+    return { message: 'Assurance habitation mis à jour avec succès', data: { id, ...updateAssuranceHabitationDTO } };
   }
 
   async remove(id: string, token: string) {
@@ -71,6 +71,6 @@ export class AssurancesHabitationService {
     const assuranceHabitation = await this.findOne(id, token);
     // Procéder à la suppression si l'utilisateur est autorisé
     await this.assurancesHabitationRepository.delete(id);
-    return { message: 'Assurance véhicule supprimé avec succès', data: assuranceHabitation };
+    return { message: 'Assurance habitation supprimé avec succès', data: assuranceHabitation };
   }
 }

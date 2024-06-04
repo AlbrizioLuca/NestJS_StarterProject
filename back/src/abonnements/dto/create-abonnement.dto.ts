@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
-import { ChoixPaiementEnum, TypeContratEnum } from '../enums';
+import { ChoixPaiementEnum } from '../enums';
 import { IsDateBefore } from 'src/common/validators/is-date-before.validator';
 
 export class CreateAbonnementDTO {
@@ -40,17 +40,11 @@ export class CreateAbonnementDTO {
     @IsIn(Object.values(ChoixPaiementEnum))
     choix_paiement: ChoixPaiementEnum;
 
-    @ValidateIf((o) => o.type === ChoixPaiementEnum.MENSUEL)
     @ApiProperty({ example: '66.33' })
+    @ValidateIf((o) => o.type === ChoixPaiementEnum.MENSUEL)
     @IsNotEmpty()
     @IsString()
     mensualites?: string;
-
-    @ApiProperty({ example: TypeContratEnum.ASSURANCE_VEHICULE })
-    @IsNotEmpty()
-    @IsString()
-    @IsIn(Object.values(TypeContratEnum))
-    type: TypeContratEnum;
 
     @ApiProperty({ example: 'abc-123-def-456-ghi-789' })
     @IsNotEmpty()
