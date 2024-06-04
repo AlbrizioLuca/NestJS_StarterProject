@@ -15,7 +15,7 @@ import { ContratMutuelle } from './entities/contrats-mutuelle.entity';
   ],
   controllers: [ContratsMutuelleController],
   providers: [ContratsMutuelleService, AuthService],
-  exports: [ContratsMutuelleService],
+  exports: [ContratsMutuelleService, TypeOrmModule],
 
 })
 export class ContratsMutuelleModule { }

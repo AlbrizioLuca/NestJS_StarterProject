@@ -15,7 +15,7 @@ import { UsersModule } from 'src/users/users.module';
   ],
   controllers: [AssurancesVehiculeController],
   providers: [AssurancesVehiculeService, AuthService],
-  exports: [AssurancesVehiculeService],
+  exports: [AssurancesVehiculeService, TypeOrmModule],
 
 })
 export class AssurancesVehiculeModule { }

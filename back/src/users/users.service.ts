@@ -6,12 +6,15 @@ import { hash } from 'bcryptjs';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { AuthService } from 'src/common/auth/auth.service';
+import { Profil } from 'src/profils/entities/profil.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Profil)
+    private profileRepository: Repository<Profil>,
     private authService: AuthService,
   ) { }
 
@@ -20,6 +23,13 @@ export class UsersService {
     createUserDTO.password = await hash(createUserDTO.password, 10);
     // Enregistrer le nouvel utilisateur en base de données 
     const newUser = await this.usersRepository.save(createUserDTO);
+
+    //Enregistrer également une entrée dans la table profil
+    const profilUtilisateur = new Profil();
+    profilUtilisateur.userId = newUser.id;
+    await this.profileRepository.save(profilUtilisateur);
+
+    // Retourner un message de succès et les données de l'utilisateur
     return { message: 'Utilisateur créé avec succès', data: newUser };
   }
 

@@ -1,36 +1,25 @@
 import {
     Entity,
-    PrimaryGeneratedColumn,
     Column,
     OneToOne,
-    JoinColumn
+    JoinColumn,
+    PrimaryColumn
 } from "typeorm";
 import { Abonnement } from "src/abonnements/entities/abonnement.entity";
 import { InfosContratElectricite } from "../interfaces/info-contrat-electricite.interface";
 
 @Entity('contrat_electricite')
 export class ContratElectricite {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryColumn({ type: 'uuid' })
+    abonnementId: string;
 
-    @Column({ type: 'json' })
-    informations_contrat: InfosContratElectricite
+    @Column({ type: 'json', nullable: true })
+    informations_contrat: InfosContratElectricite;
 
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
+    @Column({ type: 'uuid', length: 36 })
     userId: string;
 
     @OneToOne(() => Abonnement)
     @JoinColumn({ name: "abonnementId" })
     abonnement: Abonnement;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
-    abonnementId: string;
-
 }

@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAssuranceHabitationDTO } from './dto/create-assurance-habitation.dto';
-import { UpdateAssuranceHabitationDTO } from './dto/update-assurance-habitation.dto';
 import { AssuranceHabitation } from './entities/assurances-habitation.entity';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/common/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UpdateAssuranceHabitationDTO } from './dto/update-assurance-habitation.dto';
 
 @Injectable()
 export class AssurancesHabitationService {
@@ -44,7 +44,7 @@ export class AssurancesHabitationService {
 
   async findOne(id: string, token: string) {
     // Récupérer et vérifier si un abonnement existe avec l'ID fourni
-    const assuranceHabitation = await this.assurancesHabitationRepository.findOne({ where: { id: id } });
+    const assuranceHabitation = await this.assurancesHabitationRepository.findOne({ where: { abonnementId: id } });
     if (!assuranceHabitation) {
       throw new NotFoundException(
         `Aucun abonnement trouvé avec l'ID fourni : ${id}`,
@@ -62,7 +62,7 @@ export class AssurancesHabitationService {
     // Attendre le retour de la méthode findOne pour vérifier si l'utilisateur est autorisé
     await this.findOne(id, token);
     // Procéder à la mise à jour si l'utilisateur est autorisé
-    //! await this.assurancesHabitationRepository.update(id, updateAssuranceHabitationDTO);
+    await this.assurancesHabitationRepository.update(id, updateAssuranceHabitationDTO);
     return { message: 'Assurance véhicule mis à jour avec succès', data: { id, ...updateAssuranceHabitationDTO } };
   }
 

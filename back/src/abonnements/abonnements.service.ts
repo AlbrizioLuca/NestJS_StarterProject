@@ -5,13 +5,32 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/common/auth/auth.service';
 import { DeepPartial, Repository } from 'typeorm';
+import { TypeContratEnum } from './enums';
+
 import { Abonnement } from './entities/abonnement.entity';
+import { AssuranceVehicule } from 'src/assurances-vehicule/entities/assurance-vehicule.entity';
+import { AssuranceHabitation } from 'src/assurances-habitation/entities/assurances-habitation.entity';
+import { ContratElectricite } from 'src/contrats-electricite/entities/contrats-electricite.entity';
+import { ContratMutuelle } from 'src/contrats-mutuelle/entities/contrats-mutuelle.entity';
 
 @Injectable()
 export class AbonnementsService {
   constructor(
     @InjectRepository(Abonnement)
     private abonnementsRepository: Repository<Abonnement>,
+
+    @InjectRepository(AssuranceVehicule)
+    private assuranceVehiculeRepository: Repository<AssuranceVehicule>,
+
+    @InjectRepository(AssuranceHabitation)
+    private assuranceHabitationRepository: Repository<AssuranceHabitation>,
+
+    @InjectRepository(ContratElectricite)
+    private contratElectriciteRepository: Repository<ContratElectricite>,
+
+    @InjectRepository(ContratMutuelle)
+    private contratMutuelleRepository: Repository<ContratMutuelle>,
+
     private authService: AuthService,
     private jwtService: JwtService,
   ) { }
@@ -22,10 +41,45 @@ export class AbonnementsService {
     // Enregistrer les données présentes dans la charge utile du jeton
     const authUserId: string = decodedToken.sub;
     // Créer un nouvel objet abonnement en combinant les données reçues et l'ID de l'utilisateur
-    const newSubscription = { ...createAbonnementDTO, userId: authUserId }
+    const abonnement = { ...createAbonnementDTO, userId: authUserId }
     // Enregistrer le nouvel abonnement dans la base de données
-    await this.abonnementsRepository.save(newSubscription);
-    return { message: 'Abonnement créé avec succès', data: newSubscription };
+    const nouvelAbonnement = await this.abonnementsRepository.save(abonnement);
+
+    switch (createAbonnementDTO.type) {
+      case TypeContratEnum.ASSURANCE_VEHICULE:
+        const assuranceVehicule = new AssuranceVehicule()
+        assuranceVehicule.abonnementId = nouvelAbonnement.id;
+        assuranceVehicule.userId = nouvelAbonnement.id;
+
+        await this.assuranceVehiculeRepository.save(assuranceVehicule);
+        break;
+
+      case TypeContratEnum.ASSURANCE_HABITATION:
+        const assuranceHabitation = new AssuranceHabitation()
+        assuranceHabitation.abonnementId = nouvelAbonnement.id;
+        assuranceHabitation.userId = nouvelAbonnement.id;
+
+        await this.assuranceHabitationRepository.save(assuranceHabitation);
+        break;
+
+      case TypeContratEnum.FOURNISSEUR_ELECTRICITE:
+        const contratElectricite = new ContratElectricite()
+        contratElectricite.abonnementId = nouvelAbonnement.id;
+        contratElectricite.userId = nouvelAbonnement.id;
+
+        await this.contratElectriciteRepository.save(contratElectricite);
+        break;
+
+      case TypeContratEnum.MUTUELLE:
+        const contratMutuelle = new ContratMutuelle()
+        contratMutuelle.abonnementId = nouvelAbonnement.id;
+        contratMutuelle.userId = nouvelAbonnement.id;
+
+        await this.contratMutuelleRepository.save(contratMutuelle);
+        break;
+    }
+
+    return { message: 'Abonnement créé avec succès', data: nouvelAbonnement };
   }
 
   async findAll(token: string) {

@@ -44,7 +44,7 @@ export class AssurancesVehiculeService {
 
   async findOne(id: string, token: string) {
     // Récupérer et vérifier si un abonnement existe avec l'ID fourni
-    const assuranceVehicule = await this.assurancesVehiculeRepository.findOne({ where: { id: id } });
+    const assuranceVehicule = await this.assurancesVehiculeRepository.findOne({ where: { abonnementId: id } });
     if (!assuranceVehicule) {
       throw new NotFoundException(
         `Aucun abonnement trouvé avec l'ID fourni : ${id}`,

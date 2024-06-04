@@ -45,7 +45,7 @@ export class ContratsMutuelleService {
 
   async findOne(id: string, token: string) {
     // Récupérer et vérifier si un contrat existe avec l'ID fourni
-    const contrat = await this.contratsMutuelleContratMutuelleRepository.findOne({ where: { id: id } });
+    const contrat = await this.contratsMutuelleContratMutuelleRepository.findOne({ where: { abonnementId: id } });
     if (!contrat) {
       throw new NotFoundException(
         `Aucun contrat trouvé avec l'ID fourni : ${id}`,

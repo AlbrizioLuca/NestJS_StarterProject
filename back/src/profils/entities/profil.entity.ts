@@ -1,41 +1,56 @@
+import { User } from "../../users/entities/user.entity";
+import { GenreEnum } from "../enums";
+import { Adresses } from "../interfaces/addresse.interface";
 import {
     Column,
     Entity,
     JoinColumn,
     OneToOne,
-    PrimaryGeneratedColumn
+    PrimaryColumn,
 } from "typeorm";
-import { User } from "../../users/entities/user.entity";
-import { GenreEnum } from "../enums";
-import { Adresses } from "../interfaces/addresse.interface";
 
 @Entity('profil')
 export class Profil {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryColumn({
+        type: 'uuid'
+    })
+    userId: string;
 
     @Column({
         type: 'enum',
-        enum: GenreEnum
+        enum: GenreEnum,
+        nullable: true
     })
     genre: GenreEnum;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     nom: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     prenom: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     telephone: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     date_naissance: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     profession: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     situation_familiale: string;
 
     @Column({
@@ -44,13 +59,7 @@ export class Profil {
     })
     adresses: Adresses;
 
-    @OneToOne(() => User)
+    @OneToOne(() => User, { cascade: true })
     @JoinColumn({ name: "userId" })
     user: User;
-    @Column({
-        type: 'uuid',
-        length: 36,
-        nullable: true
-    })
-    userId: string;
 }

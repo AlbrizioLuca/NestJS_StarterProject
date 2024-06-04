@@ -15,7 +15,7 @@ import { ContratElectricite } from './entities/contrats-electricite.entity';
   ],
   controllers: [ContratsElectriciteController],
   providers: [ContratsElectriciteService, AuthService],
-  exports: [ContratsElectriciteService],
+  exports: [ContratsElectriciteService, TypeOrmModule],
 
 })
 export class ContratsElectriciteModule { }

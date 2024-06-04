@@ -1,8 +1,7 @@
-import {
-    Profil
-} from "../../profils/entities/profil.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RoleUserEnum } from "../enums/role-user.enum";
+import { Abonnement } from "src/abonnements/entities/abonnement.entity";
+import { Profil } from "../../profils/entities/profil.entity";
 
 @Entity('user')
 export class User {
@@ -23,8 +22,9 @@ export class User {
     role: RoleUserEnum;
 
     @OneToOne(
-        type => Profil,
-        profil => profil.user
-    )
+        type => Profil, profil => profil.user, { onDelete: 'CASCADE' })
     profil: Profil;
+
+    @OneToMany(type => Abonnement, abonnement => abonnement.user, { onDelete: 'CASCADE' })
+    abonnement: Abonnement;
 }

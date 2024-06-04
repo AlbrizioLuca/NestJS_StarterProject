@@ -15,7 +15,7 @@ import { AssuranceHabitation } from './entities/assurances-habitation.entity';
   ],
   controllers: [AssurancesHabitationController],
   providers: [AssurancesHabitationService, AuthService],
-  exports: [AssurancesHabitationService],
+  exports: [AssurancesHabitationService, TypeOrmModule],
 
 })
 export class AssurancesHabitationModule { }

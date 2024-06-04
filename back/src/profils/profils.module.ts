@@ -16,6 +16,6 @@ import { ProfilsService } from './profils.service';
     ProfilsService,
     AuthService
   ],
-  exports: [ProfilsService],
+  exports: [ProfilsService, TypeOrmModule],
 })
 export class ProfilsModule { }

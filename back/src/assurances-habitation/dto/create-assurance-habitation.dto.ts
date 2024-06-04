@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, IsBoolean, IsDate, IsPositive } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsDate, IsPositive, IsNotEmpty } from 'class-validator';
 
-export class CreateAssuranceHabitationDTO {
+class InfoAssuranceHabitation {
     @ApiProperty({ example: 'Appartement' })
     @IsString()
     type_logement: string;
@@ -89,5 +89,15 @@ export class CreateAssuranceHabitationDTO {
     @ApiProperty({ example: 'Cuisine équipée, Meubles intégrés' })
     @IsString()
     equipement_logement: string;
+
+}
+
+
+export class CreateAssuranceHabitationDTO {
+
+    @ApiProperty({ example: InfoAssuranceHabitation })
+    @IsNotEmpty()
+    informations_contrat: InfoAssuranceHabitation;
+
 
 }

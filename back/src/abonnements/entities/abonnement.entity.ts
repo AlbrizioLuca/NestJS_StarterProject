@@ -56,15 +56,15 @@ export class Abonnement {
     userId: string;
 
     @OneToOne(
-        () => AssuranceVehicule, assuranceVehicule => assuranceVehicule.informations_contrat)
+        () => AssuranceVehicule, assuranceVehicule => assuranceVehicule.informations_contrat, { onDelete: 'CASCADE' })
     assuranceVehicule: AssuranceVehicule;
 
-    @OneToOne(() => AssuranceHabitation, assuranceHabitation => assuranceHabitation.informations_contrat)
+    @OneToOne(() => AssuranceHabitation, assuranceHabitation => assuranceHabitation.informations_contrat, { onDelete: 'CASCADE' })
     assuranceHabitation: AssuranceHabitation;
 
-    @OneToOne(() => ContratElectricite, contratElectricite => contratElectricite.informations_contrat)
+    @OneToOne(() => ContratElectricite, contratElectricite => contratElectricite.informations_contrat, { onDelete: 'CASCADE' })
     contratElectricite: ContratElectricite;
 
-    @OneToOne(() => ContratMutuelle, contratMutuelle => contratMutuelle.informations_contrat)
+    @OneToOne(() => ContratMutuelle, contratMutuelle => contratMutuelle.informations_contrat, { onDelete: 'CASCADE' })
     contratMutuelle: ContratMutuelle;
 }
