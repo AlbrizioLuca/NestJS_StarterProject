@@ -1,6 +1,6 @@
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
 import { Injectable } from '@nestjs/common';
-import { IsUniqueConstraintInput } from './is-unique';
+import { IsUniqueConstraintInput } from './is-unique.validator';
 import { EntityManager } from 'typeorm/entity-manager/EntityManager';
 
 @ValidatorConstraint({ name: 'IsUniqueConstraint', async: true })

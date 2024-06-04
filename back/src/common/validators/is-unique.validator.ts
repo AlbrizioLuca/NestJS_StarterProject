@@ -1,5 +1,5 @@
 import { ValidationOptions, registerDecorator } from "class-validator"
-import { IsUniqueConstraint } from "./is-unique-constraint"
+import { IsUniqueConstraint } from "./is-unique-constraint.validator"
 
 export type IsUniqueConstraintInput = {
     tableName: string,

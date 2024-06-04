@@ -32,11 +32,11 @@ export class CreateProfilDTO {
         { message: 'In the expected French format, the phone number must be 10 digits long and begin with 0' })
     telephone: string;
 
-    @ApiProperty({ example: '11/07/1982' })
+    @ApiProperty({ example: '11-07-1982' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_naissance: string;
 
     @ApiProperty({ example: 'Cadre' })

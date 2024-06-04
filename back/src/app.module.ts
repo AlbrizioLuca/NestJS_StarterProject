@@ -4,7 +4,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CustomConfigModule } from './common/config/config.module';
 import { AuthModule } from './common/auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { IsUniqueConstraint } from './common/validators/is-unique-constraint';
+import { IsUniqueConstraint } from './common/validators/is-unique-constraint.validator';
 import { ProfilsModule } from './profils/profils.module';
 import { AbonnementsModule } from './abonnements/abonnements.module';
 import { AssurancesVehiculeModule } from './assurances-vehicule/assurances-vehicule.module';

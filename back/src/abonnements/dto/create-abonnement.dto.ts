@@ -1,20 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNotEmpty, IsNumberString, IsString, Matches, ValidateIf } from 'class-validator';
 import { ChoixPaiementEnum, TypeContratEnum } from '../enums';
+import { IsDateBefore } from 'src/common/validators/is-date-before.validator';
 
 export class CreateAbonnementDTO {
-    @ApiProperty({ example: '30/05/2024' })
+    @ApiProperty({ example: '30-05-2024' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @IsDateBefore('date_fin', { message: 'La date de début ne peut pas être supérieure à la date de fin' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_debut: string;
 
-    @ApiProperty({ example: '30/05/2025' })
+    @ApiProperty({ example: '30-05-2025' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_fin: string;
 
     @ApiProperty({ example: '1 an' })
