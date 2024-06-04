@@ -16,46 +16,29 @@ export class Profil {
     })
     userId: string;
 
-    @Column({
-        type: 'enum',
-        enum: GenreEnum,
-        nullable: true
-    })
+    @Column({ type: 'enum', enum: GenreEnum, nullable: true })
     genre: GenreEnum;
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     nom: string;
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     prenom: string;
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     telephone: string;
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     date_naissance: string;
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     profession: string;
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     situation_familiale: string;
 
     @Column({
-        type: 'json',
-        nullable: true
+        type: 'json', nullable: true
     })
     adresses: Adresses;
 
