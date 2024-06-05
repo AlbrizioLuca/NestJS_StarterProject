@@ -25,11 +25,11 @@ export class InfosConducteur {
         { message: 'The lastname must not contain special characters or numbers' })
     prenom: string;
 
-    @ApiProperty({ example: '11/07/1982' })
+    @ApiProperty({ example: '11-07-1982' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_naissance: string;
 
     @ApiProperty({ example: CategoriePermisEnum.PERMIS_B })
@@ -39,11 +39,11 @@ export class InfosConducteur {
     @IsString()
     categorie_permis: CategoriePermisEnum;
 
-    @ApiProperty({ example: '11/12/2000' })
+    @ApiProperty({ example: '11-12-2000' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_obtention_permis: number;
 
     @ApiProperty({ example: 0.5 })
@@ -107,18 +107,18 @@ export class CreateAssuranceVehiculeDTO {
     @IsString()
     immatriculation: string;
 
-    @ApiProperty({ example: '01/01/2008' })
+    @ApiProperty({ example: '01-01-2008' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_mise_en_circulation: string;
 
     @ApiProperty({ example: '05/04/2010' })
     @IsNotEmpty()
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_achat: string;
 
     @ApiProperty({ example: 5 })
@@ -174,7 +174,7 @@ export class CreateAssuranceVehiculeDTO {
 
     @ApiProperty({ example: 'Moyen' })
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     franchise: string;
 
     @ApiProperty({ example: '50km' })

@@ -18,8 +18,8 @@ export class CreateAssuranceHabitationDTO {
 
     @ApiProperty({ example: '01-01-2022' })
     @IsString()
-    @Matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-        { message: 'Expected french format, so the date format must be DD/MM/YYYY' })
+    @Matches(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+        { message: 'Le format de date attendu est JJ-MM-AAAA' })
     date_enmenagement: string;
 
     @ApiProperty({ example: StatutOccupantEnum.PROPRIETAIRE })

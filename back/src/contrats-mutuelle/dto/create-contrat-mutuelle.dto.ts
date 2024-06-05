@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateContratMutuelleDTO {
 
-    @ApiProperty({ example: '1 82 07 34 789 845' })
+    @ApiProperty({ example: '1820734789845' })
     @IsNumberString()
     numero_securite_sociale: string;
 
